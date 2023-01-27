@@ -37,7 +37,7 @@ Objet::~Objet() {
 
 void Objet::infoNormF()
 {
-	std::cout << "\n NORMAL AUX FACES\n";
+	std::cout << "\n NORMALES AUX FACES\n";
 	//Boucle qui parcourt tout le tableau des somparfaces
 	for (unsigned long i = 0; i < somparfaces.size(); ++i)
 	{
@@ -51,7 +51,7 @@ void Objet::infoNormF()
 
 void Objet::infoNormS()
 {
-	std::cout << "\n NORMAL AUX SOMMETS\n";
+	std::cout << "\n NORMALES AUX SOMMETS\n";
 	// Boucle qui parcourt tout le tableau des NormSommet
 	for (unsigned long i = 0; i < NormSommet.size(); ++i)
 	{

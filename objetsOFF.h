@@ -54,5 +54,5 @@ typedef struct {
 	uint8_t index;
 	std::deque<std::deque<unsigned long>> * ranges;
 	Objet * obj;
-}cettestructuremesoulepourquoionpeutpaspasserplusieursargumentsdansunthread;
+}obj_thread;
 #endif

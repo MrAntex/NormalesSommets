@@ -18,7 +18,7 @@ using namespace std;
 
 void* calculNormalface(void * param)
 {
-	cettestructuremesoulepourquoionpeutpaspasserplusieursargumentsdansunthread * st = (cettestructuremesoulepourquoionpeutpaspasserplusieursargumentsdansunthread*) param;//Création d'un pointeur sur la structure contenant l'objet à utiliser, le numéro de son thread et son tableau de bornes
+	obj_thread * st = (obj_thread*) param;//Création d'un pointeur sur la structure contenant l'objet à utiliser, le numéro de son thread et son tableau de bornes
 
 	point3 pV, ui; //On défini deux variable de type point
 	
@@ -65,9 +65,9 @@ void* calculNormalface(void * param)
 
 void* calculNormalsommet(void * param)
 {
-	cettestructuremesoulepourquoionpeutpaspasserplusieursargumentsdansunthread * st = (cettestructuremesoulepourquoionpeutpaspasserplusieursargumentsdansunthread*) param;
+	obj_thread * st = (obj_thread*) param;
 	
-	point3 chibrax; //On défini une variable de type double
+	point3 pt; //On défini une variable de type double
 
 	//On parcourt le tableau pour chaque sommet
 	for (unsigned long i = st->ranges->at(st->index).at(0); i <= st->ranges->at(st->index).at(1); ++i)
@@ -75,11 +75,11 @@ void* calculNormalsommet(void * param)
 		
 		for (unsigned long j = 0; j < st->obj->somparfaces[i].size(); ++j){
 
-			chibrax = chibrax + st->obj->somparfaces[i][j];//On additionne toute les faces d'un sommet
+			pt = pt + st->obj->somparfaces[i][j];//On additionne toute les faces d'un sommet
 		}
 			
-		chibrax = chibrax / st->obj->somparfaces[i].size();//On fait la moyenne des faces du sommet se qui nous donne la normal au sommet
-		st->obj->NormSommet.at(i) = chibrax;//On ajoute la valeur à notre tableau des normals aux sommets
+		pt = pt / st->obj->somparfaces[i].size();//On fait la moyenne des faces du sommet se qui nous donne la normal au sommet
+		st->obj->NormSommet.at(i) = pt;//On ajoute la valeur à notre tableau des normals aux sommets
 		
 		//std::cout << "[" << X << " ; " << Y << " ; " << Z << "]\n";
 	}
@@ -149,7 +149,7 @@ int main(int argc, char* argv[])
 
 	for(uint8_t k = 0 ; k < (uint8_t)nbthreads ; ++k){
 	
-	cettestructuremesoulepourquoionpeutpaspasserplusieursargumentsdansunthread * param = new cettestructuremesoulepourquoionpeutpaspasserplusieursargumentsdansunthread{k, st1, ptrObjet};// Initialisation de la structure avec les paramètres nécéssaires
+	obj_thread * param = new obj_thread{k, st1, ptrObjet};// Initialisation de la structure avec les paramètres nécéssaires
 		pthread_create(&thtab[k], NULL, calculNormalface, (void*) param);//Création des threads
 	}
 		//monObjet.calculNormalface();
@@ -164,7 +164,7 @@ int main(int argc, char* argv[])
 	// A voir si on peut utiliser 2 fois le meme pthread_t VVVV /!\ */
 
 	for(uint8_t k = 0 ; k < (uint8_t)nbthreads ; ++k){
-		cettestructuremesoulepourquoionpeutpaspasserplusieursargumentsdansunthread * param = new cettestructuremesoulepourquoionpeutpaspasserplusieursargumentsdansunthread{k, st2, ptrObjet}; // On recommence l'opération avec le tableau de bornes des sommets
+		obj_thread * param = new obj_thread{k, st2, ptrObjet}; // On recommence l'opération avec le tableau de bornes des sommets
 		pthread_create(&thtab[k], NULL, calculNormalsommet, (void*) param);
 	}
 		//monObjet.calculNormalsommet();
